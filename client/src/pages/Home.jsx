@@ -1,3 +1,4 @@
+import BestSellers from "../components/BestSellers";
 import Hero from "../components/Hero";
 import LatestCollection from "../components/LatestCollection";
 
@@ -6,6 +7,7 @@ const Home = () => {
     <div>
       <Hero />
       <LatestCollection />
+      <BestSellers/>
     </div>
   );
 };
