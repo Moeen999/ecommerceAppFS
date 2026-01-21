@@ -1,6 +1,7 @@
 import BestSellers from "../components/BestSellers";
 import Hero from "../components/Hero";
 import LatestCollection from "../components/LatestCollection";
+import NewsLetterBox from "../components/NewsLetterBox";
 import OurPolicy from "../components/OurPolicy";
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
       <LatestCollection />
       <BestSellers/>
       <OurPolicy/>
+      <NewsLetterBox/>
     </div>
   );
 };
