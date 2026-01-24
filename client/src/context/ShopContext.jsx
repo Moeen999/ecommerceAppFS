@@ -35,7 +35,6 @@ const ShopContextProvider = ({ children }) => {
     for (const items in cartItems) {
       for (const item in cartItems[items]) {
         try {
-          console.log(cartItems[items][item]);
           if (cartItems[items][item]) {
             totalCount += cartItems[items][item];
           }
