@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
+import {toast} from "react-toastify"
 
 export const ShopContext = createContext();
 
@@ -9,6 +10,10 @@ const ShopContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
 
   const addToCart = (itemId, size) => {
+    if(!size){
+      toast.error("Select the size!")
+      return;
+    }
     let cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
@@ -21,6 +26,7 @@ const ShopContextProvider = ({ children }) => {
       cartData[itemId] = {};
       cartData[itemId][size] = 1;
     }
+    toast.success("Item added to cart!")
     setCartItems(cartData)
   };
 
