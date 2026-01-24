@@ -61,6 +61,15 @@ const Cart = () => {
                 </div>
               </div>
               <input
+                onChange={(e) =>
+                  e.target.value === "" || e.target.value === "0"
+                    ? null
+                    : updateCartQuantity(
+                        item._id,
+                        item.size,
+                        Number(e.target.value),
+                      )
+                }
                 type="number"
                 min={1}
                 defaultValue={item.quantity}
