@@ -4,6 +4,7 @@
 
 *{
     font-family: Outfit;
+    scroll-behavior: smooth;
 }
 
 a.active hr{
