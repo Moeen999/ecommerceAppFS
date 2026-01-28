@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import validator from "validator"
+import validator from "validator";
 
 // ! Resgitser user controller
 
@@ -60,7 +60,27 @@ const registerUser = async (req, res) => {
 
 // ! login user controller
 
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({ success: false, message: "User doesn't exist." });
+    }
+
+    const isPassMatch = await bcrypt.compare(password, user.password);
+    if (isPassMatch) {
+      const token = generateToken(user._id);
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Invalid credentials." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 // ! Admin login controller
 
