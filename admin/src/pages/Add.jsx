@@ -2,6 +2,7 @@ import { useState } from "react";
 import { assets } from "../assets/assets";
 import axios from "axios";
 import { serverUrl } from "../App";
+import { toast } from "react-toastify";
 
 const Add = ({ token }) => {
   const [inputData, setInputData] = useState({
@@ -17,6 +18,7 @@ const Add = ({ token }) => {
     sizes: [],
     bestseller: false,
   });
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, type, value, files, checked } = e.target;
@@ -38,27 +40,54 @@ const Add = ({ token }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    inputData.image1 && formData.append("image1", inputData.image1);
-    inputData.image2 && formData.append("image2", inputData.image2);
-    inputData.image3 && formData.append("image3", inputData.image3);
-    inputData.image4 && formData.append("image4", inputData.image4);
+      inputData.image1 && formData.append("image1", inputData.image1);
+      inputData.image2 && formData.append("image2", inputData.image2);
+      inputData.image3 && formData.append("image3", inputData.image3);
+      inputData.image4 && formData.append("image4", inputData.image4);
 
-    formData.append("name", inputData.name);
-    formData.append("description", inputData.description);
-    formData.append("category", inputData.category);
-    formData.append("subCategory", inputData.subCategory);
-    formData.append("price", inputData.price);
-    formData.append("bestseller", inputData.bestseller);
+      formData.append("name", inputData.name);
+      formData.append("description", inputData.description);
+      formData.append("category", inputData.category);
+      formData.append("subCategory", inputData.subCategory);
+      formData.append("price", inputData.price);
+      formData.append("bestseller", inputData.bestseller);
 
-    formData.append("sizes", JSON.stringify(inputData.sizes));
+      formData.append("sizes", JSON.stringify(inputData.sizes));
+      setIsAdding(true);
+      const res = await axios.post(serverUrl + "/api/product/add", formData, {
+        headers: { token },
+      });
 
-    const res = await axios.post(serverUrl + "/api/product/add", formData, {
-      headers: { token },
-    });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setInputData({
+          image1: null,
+          image2: null,
+          image3: null,
+          image4: null,
+          name: "",
+          description: "",
+          category: "Men",
+          subCategory: "Topwear",
+          price: "",
+          sizes: [],
+          bestseller: false,
+        });
+        setIsAdding(false);
+      } else {
+        toast.error(res.data.message);
+        setIsAdding(false);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      setIsAdding(false);
+    }
   };
 
   return (
@@ -169,8 +198,12 @@ const Add = ({ token }) => {
         <label htmlFor="bestseller">Add to bestseller</label>
       </div>
 
-      <button className="mt-4 bg-black text-white px-6 py-2" type="submit">
-        ADD
+      <button
+        disabled={isAdding}
+        className={`mt-4 bg-black text-white px-6 py-2 ${isAdding ? "cursor-not-allowed" : ""}`}
+        type="submit"
+      >
+        {isAdding ? "ADDING..." : "ADD"}
       </button>
     </form>
   );
