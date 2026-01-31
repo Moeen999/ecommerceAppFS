@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import { ToastContainer } from "react-toastify";
 
 export const serverUrl = import.meta.env.VITE_SERVER_URL;
+export const currency = "$";
 
 const App = () => {
   const availableToken = localStorage.getItem("token");
