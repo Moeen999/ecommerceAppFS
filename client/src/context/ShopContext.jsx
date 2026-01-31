@@ -121,6 +121,18 @@ const ShopContextProvider = ({ children }) => {
     }
   };
 
+  const getCartData = async(token)=>{
+    try {
+      const res = await axios.post(serverURL+"/api/cart/cart-items",{},{headers:{token}});
+      if(res.data.success){
+        setCartItems(res.data.cartData);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }
+
   useEffect(() => {
     getProductsData();
   }, []);
@@ -128,6 +140,7 @@ const ShopContextProvider = ({ children }) => {
   useEffect(() => {
     if (!token && localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+      getCartData(localStorage.getItem("token"));
     }
   });
 

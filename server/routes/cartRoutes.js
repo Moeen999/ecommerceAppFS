@@ -9,7 +9,7 @@ import authUser from "../middleware/userAuth.js";
 const cartRouter = express.Router();
 
 cartRouter.post("/add", authUser, addToCart);
-cartRouter.post("/cartitems", authUser, getCartData);
+cartRouter.post("/cart-items", authUser, getCartData);
 cartRouter.post("/update", authUser, updateCart);
 
 export default cartRouter;
