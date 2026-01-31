@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    if (validator.isEmail(email)) {
+    if (!validator.isEmail(email)) {
       return res.json({
         success: false,
         message: "Please enter a valid email address.",

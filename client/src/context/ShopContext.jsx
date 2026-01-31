@@ -13,6 +13,7 @@ const ShopContextProvider = ({ children }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
+  const [token, setToken] = useState(null);
   const navigate = useNavigate();
 
   const addToCart = (itemId, size) => {
@@ -75,10 +76,10 @@ const ShopContextProvider = ({ children }) => {
     setCartItems(cartData);
   };
 
-  const getProudtcsData = async () => {
+  const getProductsData = async () => {
     try {
       const res = await axios.get(serverURL + "/api/product/list");
-      if(res.data.success){
+      if (res.data.success) {
         setProducts(res.data.products);
       }
     } catch (error) {
@@ -88,8 +89,14 @@ const ShopContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getProudtcsData();
+    getProductsData();
   }, []);
+
+  useEffect(() => {
+    if (!token && localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"));
+    }
+  });
 
   const value = {
     currency,
@@ -106,6 +113,8 @@ const ShopContextProvider = ({ children }) => {
     getCartTotalAmount,
     navigate,
     serverURL,
+    token,
+    setToken,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
