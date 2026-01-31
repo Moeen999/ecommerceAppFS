@@ -89,6 +89,24 @@ const ShopContextProvider = ({ children }) => {
     let cartData = structuredClone(cartItems);
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
+
+    try {
+      if (token) {
+        const res = await axios.post(
+          serverURL + "/api/cart/update",
+          { itemId, size, quantity },
+          { headers: { token } },
+        );
+        if (res.data.success) {
+          toast.success(res.data.message);
+        } else {
+          toast.error(res.data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   const getProductsData = async () => {
