@@ -16,7 +16,7 @@ const ShopContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
 
-  const addToCart = (itemId, size) => {
+  const addToCart = async (itemId, size) => {
     if (!size) {
       toast.error("Select the size!");
       return;
@@ -33,8 +33,23 @@ const ShopContextProvider = ({ children }) => {
       cartData[itemId] = {};
       cartData[itemId][size] = 1;
     }
-    toast.success("Item added to cart!");
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        const res = await axios.post(
+          serverURL + "/api/cart/add",
+          { itemId, size },
+          { headers: { token } },
+        );
+        if (res.data.success) {
+          toast.success(res.data.message);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+      }
+    }
   };
 
   const getCartItemsCount = () => {
