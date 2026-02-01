@@ -1,9 +1,26 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Orders = () => {
-  const { products, currency } = useContext(ShopContext);
+  const { serverURL, token, products, currency } = useContext(ShopContext);
+  const getUserOrders =async()=>{
+    try {
+      if(!token){
+        return null;
+      }
+      const res = await axios.post(serverURL+"/api/order/userorders",{},{headers:{token}});
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }
+
+  useEffect(()=>{
+    getUserOrders()
+  },[token])
   return (
     <div className="border-t pt-16">
       <div className="text-2xl">

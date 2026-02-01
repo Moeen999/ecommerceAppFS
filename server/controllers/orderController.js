@@ -36,8 +36,18 @@ const allOrders = async (req, res) => {};
 
 // ! orders of a single user
 
-const userOrders = async (req, res) => {};
+const userOrders = async (req, res) => {
+  try {
+    const {userId} = req.body;
+    const orders = await orderModel.find({userId});
+    res.json({success:true,orders});
+  } catch (error) {
+     console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
+// ! admin feature
 const updateStatus = async (req, res) => {};
 
 export {
