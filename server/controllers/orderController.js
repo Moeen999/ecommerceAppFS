@@ -32,17 +32,25 @@ const placeOrderStrip = async (req, res) => {};
 const placeOrderRazorpay = async (req, res) => {};
 
 // ! all orders data for the admin
-const allOrders = async (req, res) => {};
+const allOrders = async (req, res) => {
+  try {
+    const orders = await orderModel.find({});
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 // ! orders of a single user
 
 const userOrders = async (req, res) => {
   try {
-    const {userId} = req.body;
-    const orders = await orderModel.find({userId});
-    res.json({success:true,orders});
+    const { userId } = req.body;
+    const orders = await orderModel.find({ userId });
+    res.json({ success: true, orders });
   } catch (error) {
-     console.log(error);
+    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
