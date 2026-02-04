@@ -91,18 +91,18 @@ const Login = () => {
 
       <div className="w-full flex justify-between text-sm mt-[8px]">
         <p>Forgot your password?</p>
-        {currState === "Login" ? (
+        {currState === "Sign In" ? (
           <p onClick={() => setCurrState("Sign Up")} className="cursor-pointer">
             Create Account
           </p>
         ) : (
-          <p onClick={() => setCurrState("Login")} className="cursor-pointer">
+          <p onClick={() => setCurrState("Sign In")} className="cursor-pointer">
             Login Here
           </p>
         )}
       </div>
       <button className="bg-black text-white font-light px-8 py-2 mt-4">
-        {currState === "Login" ? "Sign In" : "Sign Up"}
+        {currState === "Sign In" ? "Sign In" : "Sign Up"}
       </button>
     </form>
   );
