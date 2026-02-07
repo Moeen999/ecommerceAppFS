@@ -14,6 +14,7 @@ import SearchBar from "./components/SearchBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
+import Verify from "./pages/Verify";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/verify" element={<Verify/>}/>
       </Routes>
       <Footer />
     </div>
